@@ -1,0 +1,52 @@
+package test;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+public class ReadExl {
+	public static void main(String[] args) {
+		try {
+			FileInputStream fileInputStream = new FileInputStream("poi-test.xls");
+			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
+			HSSFSheet worksheet = workbook.getSheet("POI Worksheet");
+			HSSFRow row1 = worksheet.getRow(0);
+			HSSFCell cellA1 = row1.getCell(0);
+			String a1Val = cellA1.getStringCellValue();
+			HSSFCell cellB1 = row1.getCell(1);
+			String b1Val = cellB1.getStringCellValue();
+			HSSFCell cellC1 = row1.getCell(2);
+			boolean c1Val = cellC1.getBooleanCellValue();
+			HSSFCell cellD1 = row1.getCell(3);
+			Date d1Val = cellD1.getDateCellValue();
+
+			System.out.println("A1: " + a1Val);
+			System.out.println("B1: " + b1Val);
+			System.out.println("C1: " + c1Val);
+			System.out.println("D1: " + d1Val);
+			HSSFSheet ws = workbook.createSheet("DP NAMES");
+			HSSFRow row = ws.createRow(0);
+			row.createCell(0).setCellValue("basanti");
+			row.createCell(1).setCellValue("shivanad");
+			row.createCell(2).setCellValue("nandargi");
+			FileOutputStream fileOut = new FileOutputStream("poi-test.xls");
+			workbook.write(fileOut);
+		    fileOut.close();
+			System.out.println(ws.getRow(0).getCell(0));
+			System.out.println(ws.getRow(0).getCell(1));
+			System.out.println(ws.getRow(0).getCell(2));
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
